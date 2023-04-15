@@ -134,6 +134,7 @@ def help_roro():
     print('1. logout : untuk keluar dari akun')
     print('2. exit : untuk keluar dari program')
     print('2. hancurkancandi: untuk menghancurkan candi')
+    return menu_roro()
 
 
 def help_pembangun():
