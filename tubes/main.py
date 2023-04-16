@@ -10,7 +10,8 @@ candi = func.csv_parser(candi_array, ';', 101, 5)
 bahan_bangunan_array = func.csv_reader('bahan_bangunan.csv')
 bahan_bangunan = func.csv_parser(bahan_bangunan_array, ';', 4, 3)
 bahan_bangunan[1][0], bahan_bangunan[2][0], bahan_bangunan[3][0] = 'pasir', 'batu', 'air'
-bahan_bangunan[1][2], bahan_bangunan[2][2], bahan_bangunan[3][2] = 0, 0, 0
+bahan_bangunan[1][1], bahan_bangunan[2][1], bahan_bangunan[3][1] = 'pasir', 'batu', 'air'
+bahan_bangunan[1][2], bahan_bangunan[2][2], bahan_bangunan[3][2] = 500, 500, 500
 
 # bahan_bangunan = [['nama', 'deskripsi', 'jumlah'], ['pasir', '', 0], ['batu', '', 0], ['air', '', 0]]
 
@@ -34,6 +35,8 @@ def main():
         printb()
     elif command == 'printc':
         printc()
+    # elif command == 'load':
+    #     load()
     else:
         print('Command tidak terdaftar')
         return main()
@@ -61,6 +64,8 @@ def menu_bondowoso():
         laporanjin()
     elif command == 'laporancandi':
         laporancandi()
+    elif command == 'save':
+        save()
     else:
         print('Command tidak terdaftar')
         return menu_bondowoso()
@@ -78,6 +83,8 @@ def menu_roro():
         hancurkancandi()
     elif command == 'ayamberkokok':
         ayamberkokok()
+    elif command == 'save':
+        save()
     else:
         print('Command tidak terdaftar')
         return menu_roro()
@@ -133,7 +140,9 @@ def help_bondowoso():
 def help_roro():
     print('1. logout : untuk keluar dari akun')
     print('2. exit : untuk keluar dari program')
-    print('2. hancurkancandi: untuk menghancurkan candi')
+    print('3. hancurkancandi: untuk menghancurkan candi')
+    print('4. ayamberkokok: untuk menyelesaikan permainan')
+    return menu_roro()
 
 
 def help_pembangun():
@@ -335,7 +344,7 @@ def batch_kumpul():
 
 def batch_bangun():
     pasir = 0; batu = 0; air = 0
-    counter = 0; limiter1 = 0; limiter2 = 0
+    counter = 0; limiter1 = 0; limiter2 = 0; counter2 = 0
     for i in range (3, 103):
         if user[i][2] == 'Jin_pembangun':
             counter += 1
@@ -353,17 +362,23 @@ def batch_bangun():
                     limiter1 += 1
                 else:
                     break
-        if bahan_bangunan[1][2] >= pasir and bahan_bangunan[2][2] >= batu and bahan_bangunan[3][2] >= air:
-            bahan_bangunan[1][2] -= pasir; bahan_bangunan[2][2] -= batu; bahan_bangunan[3][2] -= air
-            for i in range (101):
-                if candi[i] == ['', '', '', '', ''] and limiter2 < counter:
-                    candi[i] = [i, bahan_holder[limiter2][0], bahan_holder[limiter2][1], bahan_holder[limiter2][2], bahan_holder[limiter2][3]]
-                    limiter2 += 1
-            print('Mengerahkan ', counter, ' jin untuk membangun candi dengan total bahan ', pasir, ' pasir, ', batu, ' batu, dan ', air, ' air.')
-            print('Jin berhasil membangun total ', counter, ' candi.')
+        for i in range (1, 101):
+            if candi[i] == ['', '', '', '', '']:
+                counter2 += 1
+        if counter2 < counter:
+            print('Tidak cukup ruangan untuk membangun candi oleh', counter, 'jin pembangun')
         else:
-            print('Mengerahkan ', counter, ' jin untuk membangun candi dengan total bahan ', pasir, ' pasir, ', batu, ' batu, dan ', air, ' air.')
-            print('Bangun gagal. Kurang ', func.abso(pasir - bahan_bangunan[1][2]), ' pasir, ', func.abso(batu - bahan_bangunan[2][2]), ' batu, dan ', func.abso(air - bahan_bangunan[3][2]), ' air')
+            if bahan_bangunan[1][2] >= pasir and bahan_bangunan[2][2] >= batu and bahan_bangunan[3][2] >= air:
+                bahan_bangunan[1][2] -= pasir; bahan_bangunan[2][2] -= batu; bahan_bangunan[3][2] -= air
+                for i in range (101):
+                    if candi[i] == ['', '', '', '', ''] and limiter2 < counter:
+                        candi[i] = [i, bahan_holder[limiter2][0], bahan_holder[limiter2][1], bahan_holder[limiter2][2], bahan_holder[limiter2][3]]
+                        limiter2 += 1
+                print('Mengerahkan ', counter, ' jin untuk membangun candi dengan total bahan ', pasir, ' pasir, ', batu, ' batu, dan ', air, ' air.')
+                print('Jin berhasil membangun total ', counter, ' candi.')
+            else:
+                print('Mengerahkan ', counter, ' jin untuk membangun candi dengan total bahan ', pasir, ' pasir, ', batu, ' batu, dan ', air, ' air.')
+                print('Bangun gagal. Kurang ', func.abso(pasir - bahan_bangunan[1][2]), ' pasir, ', func.abso(batu - bahan_bangunan[2][2]), ' batu, dan ', func.abso(air - bahan_bangunan[3][2]), ' air')
     return menu_bondowoso()
 
 
@@ -478,8 +493,63 @@ def printc():
     return main()
 
 
-# def save():
-#     os.mkdir()
+def save():
+    folder = input('Masukan nama folder: ')
+    file1 = 'user1.csv'; file2 = 'bahan_bangunan1.csv'; file3 = 'candi1.csv'
+    f1 = open(file1, 'w'); f2 = open(file2, 'w'); f3 = open(file3, 'w')
+    if os.path.exists(folder) == False:
+        os.mkdir(folder)
+        os.chdir(folder)
+        for i in range (103):
+            for j in range (3):
+                f1.write(user[i][j])
+                f1.write(';')
+            f1.write('\n')
+        for i in range (101):
+            for j in range (5):
+                f2.write(str(candi[i][j]))
+                f2.write(';')
+            f2.write('\n')
+        for i in range (4):
+            for j in range (3):
+                f3.write(str(bahan_bangunan[i][j]))
+                f3.write(';')
+            f3.write('\n')
+    else:
+        os.chdir(folder)
+        for i in range (103):
+            for j in range (3):
+                f1.write(user[i][j])
+                f1.write(';')
+            f1.write('\n')
+        for i in range (101):
+            for j in range (5):
+                f2.write(str(candi[i][j]))
+                f2.write(';')
+            f2.write('\n')
+        for i in range (4):
+            for j in range (3):
+                f3.write(str(bahan_bangunan[i][j]))
+                f3.write(';')
+            f3.write('\n')
+    f1.close(); f2.close(); f3.close()
+    os.chdir("../")
+
+
+
+# def load():
+#     folder = input('Masukan nama folder: ')
+#     os.chdir(folder)
+#     user_array = func.csv_reader('user.csv')
+#     user = func.csv_parser(user_array, ';', 103, 3)
+#     os.chdir("../")
+#     return main()
+
+
+    
+
+
+
 
 main()
 
