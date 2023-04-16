@@ -366,7 +366,7 @@ def batch_bangun():
             if candi[i] == ['', '', '', '', '']:
                 counter2 += 1
         if counter2 < counter:
-            print('Tidak cukup ruangan untuk membangun candi oleh', counter, 'jin pembangun')
+            print('Tidak cukup ruangan untuk membangun candi oleh ', counter, ' jin pembangun')
         else:
             if bahan_bangunan[1][2] >= pasir and bahan_bangunan[2][2] >= batu and bahan_bangunan[3][2] >= air:
                 bahan_bangunan[1][2] -= pasir; bahan_bangunan[2][2] -= batu; bahan_bangunan[3][2] -= air
