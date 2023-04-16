@@ -1,2 +1,0 @@
-
-    print(total_jin)
