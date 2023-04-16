@@ -134,7 +134,6 @@ def help_roro():
     print('1. logout : untuk keluar dari akun')
     print('2. exit : untuk keluar dari program')
     print('2. hancurkancandi: untuk menghancurkan candi')
-    return menu_roro()
 
 
 def help_pembangun():
@@ -274,18 +273,15 @@ def ubahjin():
                     if confirm == 'Y':
                         user[i][2] = 'Jin_pengumpul'
                         print("Jin telah berhasil diubah.")
-                        return menu_bondowoso()
-                    elif confirm == 'N':
-                        return menu_bondowoso()
-                elif user[i][2] == 'Jin pengumpul':
+                elif user[i][2] == 'Jin_pengumpul':
                     while confirm != 'Y' and confirm != 'N':
                         confirm = input('Jin ini bertipe pengumpul. Yakin ingin mengubah ke tipe pembangun (Y/N)? ')
                     if confirm == 'Y':
-                        user[i][2] = 'Jin pembangun'
+                        user[i][2] = 'Jin_pembangun'
                         print("Jin telah berhasil diubah.")
-                        return menu_bondowoso()
-                    elif confirm == 'N':
-                        return menu_bondowoso()
+    else:
+        print('Tidak ada jin dengan username tersebut.')
+    return menu_bondowoso()
 
 
 def bangun():
@@ -481,6 +477,9 @@ def printc():
     print(candi)
     return main()
 
+
+# def save():
+#     os.mkdir()
 
 main()
 
