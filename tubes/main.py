@@ -26,13 +26,21 @@ def main():
     elif command == 'help':
         help_main()
     elif command == 'exit':
-        exit()
+        confirm = 'p'
+        while confirm != 'Y' and confirm != 'N':
+            confirm = input("Apakah anda ingin men-save progress (Y/N)?: ")
+        if confirm == 'N': 
+            exit()
+        else:
+            save()
     elif command == 'printu':
         printu()
     elif command == 'printb':
         printb()
     elif command == 'printc':
         printc()
+    elif command == 'save':
+        save()
     elif command == 'load':
         load()
     else:
@@ -47,7 +55,13 @@ def menu_bondowoso():
     elif command == 'logout':
         logout()
     elif command == 'exit':
-        exit()
+        confirm = 'p'
+        while confirm != 'Y' and confirm != 'N':
+            confirm = input("Apakah anda ingin men-save progress (Y/N)?: ")
+        if confirm == 'N': 
+            exit()
+        else:
+            save()
     elif command == 'summonjin':
         summonjin()
     elif command == 'hapusjin':
@@ -76,7 +90,13 @@ def menu_roro():
     elif command == 'logout':
         logout()
     elif command == 'exit':
-        exit()
+        confirm = 'p'
+        while confirm != 'Y' and confirm != 'N':
+            confirm = input("Apakah anda ingin men-save progress (Y/N)?: ")
+        if confirm == 'N': 
+            exit()
+        else:
+            save()
     elif command == 'hancurkancandi':
         hancurkancandi()
     elif command == 'ayamberkokok':
@@ -98,6 +118,14 @@ def menu_pembangun():
         logout()
     elif command == 'hancurkancandi':
         hancurkancandi()
+    elif command == 'exit':
+        confirm = 'p'
+        while confirm != 'Y' and confirm != 'N':
+            confirm = input("Apakah anda ingin men-save progress (Y/N)?: ")
+        if confirm == 'N': 
+            exit()
+        else:
+            save()
     else:
         print('Command tidak terdaftar')
         return menu_pembangun()
@@ -111,6 +139,17 @@ def menu_pengumpul():
         help_pengumpul()
     elif command == 'logout':
         logout()
+    elif command == 'exit':
+        confirm = 'p'
+        while confirm != 'Y' and confirm != 'N':
+            confirm = input("Apakah anda ingin men-save progress (Y/N)?: ")
+        if confirm == 'N': 
+            exit()
+        else:
+            save()
+    else:
+        print('Command tidak terdaftar')
+        return menu_pengumpul()
 
 
 def help_main():
@@ -196,13 +235,13 @@ def summonjin():
         print(' (2) Pembangun - Bertugas membangun candi')
         jenis_jin = 0
         pass_check = 0
-        while jenis_jin != 1 and jenis_jin != 2:
-            jenis_jin = int(input('Masukkan nomor jenis jin yang ingin dipanggil: '))
-            if jenis_jin != 1 and jenis_jin != 2:
+        while jenis_jin != '1' and jenis_jin != '2':
+            jenis_jin = input('Masukkan nomor jenis jin yang ingin dipanggil: ')
+            if jenis_jin != '1' and jenis_jin != '2':
                 print('Tidak ada jenis jin bernomor ', jenis_jin, '!')
-        if jenis_jin == 1:
+        if jenis_jin == '1':
             print('Memilih jin “Pengumpul”')
-            while jenis_jin != -1:
+            while jenis_jin !='-1':
                 user_jin = input('Masukkan username jin: ')
                 if func.checkm(user, user_jin, 103, 3, 0) == True:
                     print('Username “', user_jin,'” sudah diambil!')
@@ -224,7 +263,7 @@ def summonjin():
                     return menu_bondowoso()
         else:
             print('Memilih jin “Pembangun”')
-            while jenis_jin != -1:
+            while jenis_jin != '-1':
                 user_jin = input('Masukkan username jin: ')
                 if func.checkm(user, user_jin, 103, 3, 0) == True:
                     print('Username “', user_jin,'” sudah diambil!')
@@ -389,7 +428,7 @@ def laporanjin():
             total_pembangun += 1
     total_jin = total_pembangun + total_pengumpul
     # jin terajin
-    jin_terajin = ''
+    jin_terajin = 'zuhair'
     for i in range (1,101):
         count = 0
         for j in range (1, 101):
@@ -397,9 +436,10 @@ def laporanjin():
                 count += 1
         if count > limiter1 and candi[i][1] != '':
             limiter1 = count
-            jin_terajin = candi[i][1]
+            if func.first_lettter_big(jin_terajin, candi[i][1]) == False:
+                jin_terajin = candi[i][1]
     # jin termalas
-    jin_termalas = ''
+    jin_termalas = 'athaullah'
     for i in range (1,101):
         count = 0
         for j in range (1, 101):
@@ -407,7 +447,8 @@ def laporanjin():
                 count += 1
         if count < limiter2 and candi[i][1] != '':
             limiter2 = count
-            jin_termalas = candi[i][1]
+            if func.first_lettter_small(jin_termalas, candi[i][1]) == False:
+                jin_termalas = candi[i][1]
     print('Total jin: ', total_jin)
     print('Total jin pengumpul: ', total_pengumpul)
     print('Total jin pembangun: ', total_pembangun)
@@ -445,7 +486,7 @@ def laporancandi():
 def hancurkancandi():
     confirm = 'p'
     id_candi = int(input('Masukkan ID candi: '))
-    if func.checkm(candi, id_candi, 101, 1, 1) == True:
+    if func.checkm(candi, str(id_candi), 101, 1, 1) == True:
         while confirm != 'Y' and confirm != 'N':
             confirm = input('Apakah anda yakin ingin menghancurkan candi ID: ' + str(id_candi) + ' (Y/N)? ')
         if confirm == 'Y':
@@ -494,7 +535,10 @@ def printc():
 def save():
     folder = input('Masukan nama folder: ')
     file1 = 'user1.csv'; file2 = 'bahan_bangunan1.csv'; file3 = 'candi1.csv'
+    print('Saving...')
     if os.path.exists(folder) == False:
+        print('Membuat folder ', folder)
+        print('Berhasil menyimpan data di folder ', folder)
         os.mkdir(folder)
         os.chdir(folder)
         f1 = open(file1, 'x'); f2 = open(file2, 'x'); f3 = open(file3, 'x')
@@ -517,6 +561,7 @@ def save():
                     f3.write(';')
             f3.write('\n')
     else:
+        print('Berhasil menyimpan data di folder ', folder)
         os.chdir(folder)
         f1 = open(file1, 'w'); f2 = open(file2, 'w'); f3 = open(file3, 'w')
         for i in range (103):
@@ -561,7 +606,3 @@ def load():
 
 
 main()
-
-
-
-
