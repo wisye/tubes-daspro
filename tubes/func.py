@@ -27,7 +27,6 @@ def csv_parser(file_name, separator, column, row):
                 new_new_list_counter += 1
     return new_new_list
 
-
 # menyatukan 2 string
 def combine(string1, string2):
     string1 += string2
@@ -86,3 +85,17 @@ def abso(x):
         return x*(-1)
     else:
         return x
+    
+# huruf pertama lebih kecil atau tidak
+def first_lettter_small(str1, str2):
+    if str1[0] < str2[0]:
+        return True
+    else:
+        return False
+    
+# huruf pertama lebih besar atau tidak
+def first_lettter_big(str1, str2):
+    if str1[0] > str2[0]:
+        return True
+    else:
+        return False
