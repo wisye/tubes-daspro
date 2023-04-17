@@ -11,15 +11,13 @@ bahan_bangunan_array = func.csv_reader('bahan_bangunan.csv')
 bahan_bangunan = func.csv_parser(bahan_bangunan_array, ';', 4, 3)
 bahan_bangunan[1][0], bahan_bangunan[2][0], bahan_bangunan[3][0] = 'pasir', 'batu', 'air'
 bahan_bangunan[1][1], bahan_bangunan[2][1], bahan_bangunan[3][1] = 'pasir', 'batu', 'air'
-bahan_bangunan[1][2], bahan_bangunan[2][2], bahan_bangunan[3][2] = 500, 500, 500
+bahan_bangunan[1][2], bahan_bangunan[2][2], bahan_bangunan[3][2] = 0, 0, 0
 
 # bahan_bangunan = [['nama', 'deskripsi', 'jumlah'], ['pasir', '', 0], ['batu', '', 0], ['air', '', 0]]
 
 # print(user)
 # print(candi)
 # print(bahan_bangunan)
-
-id_candi = 0
 
 def main():
     command = input('>>> ')
@@ -35,8 +33,8 @@ def main():
         printb()
     elif command == 'printc':
         printc()
-    # elif command == 'load':
-    #     load()
+    elif command == 'load':
+        load()
     else:
         print('Command tidak terdaftar')
         return main()
@@ -366,7 +364,7 @@ def batch_bangun():
             if candi[i] == ['', '', '', '', '']:
                 counter2 += 1
         if counter2 < counter:
-            print('Tidak cukup ruangan untuk membangun candi oleh ', counter, ' jin pembangun')
+            print('Tidak cukup ruangan untuk membangun candi oleh', counter, 'jin pembangun')
         else:
             if bahan_bangunan[1][2] >= pasir and bahan_bangunan[2][2] >= batu and bahan_bangunan[3][2] >= air:
                 bahan_bangunan[1][2] -= pasir; bahan_bangunan[2][2] -= batu; bahan_bangunan[3][2] -= air
@@ -496,59 +494,70 @@ def printc():
 def save():
     folder = input('Masukan nama folder: ')
     file1 = 'user1.csv'; file2 = 'bahan_bangunan1.csv'; file3 = 'candi1.csv'
-    f1 = open(file1, 'w'); f2 = open(file2, 'w'); f3 = open(file3, 'w')
     if os.path.exists(folder) == False:
         os.mkdir(folder)
         os.chdir(folder)
+        f1 = open(file1, 'x'); f2 = open(file2, 'x'); f3 = open(file3, 'x')
         for i in range (103):
             for j in range (3):
                 f1.write(user[i][j])
-                f1.write(';')
+                if j <= 1:
+                    f1.write(';')
             f1.write('\n')
-        for i in range (101):
-            for j in range (5):
-                f2.write(str(candi[i][j]))
-                f2.write(';')
-            f2.write('\n')
         for i in range (4):
             for j in range (3):
-                f3.write(str(bahan_bangunan[i][j]))
-                f3.write(';')
+                f2.write(str(bahan_bangunan[i][j]))
+                if j <= 1:
+                    f2.write(';')
+            f2.write('\n')
+        for i in range (101):
+            for j in range (5):
+                f3.write(str(candi[i][j]))
+                if j <= 3:
+                    f3.write(';')
             f3.write('\n')
     else:
         os.chdir(folder)
+        f1 = open(file1, 'w'); f2 = open(file2, 'w'); f3 = open(file3, 'w')
         for i in range (103):
             for j in range (3):
                 f1.write(user[i][j])
-                f1.write(';')
+                if j <= 1:
+                    f1.write(';')
             f1.write('\n')
-        for i in range (101):
-            for j in range (5):
-                f2.write(str(candi[i][j]))
-                f2.write(';')
-            f2.write('\n')
         for i in range (4):
             for j in range (3):
-                f3.write(str(bahan_bangunan[i][j]))
-                f3.write(';')
+                f2.write(str(bahan_bangunan[i][j]))
+                if j <= 1:
+                    f2.write(';')
+            f2.write('\n')
+        for i in range (101):
+            for j in range (5):
+                f3.write(str(candi[i][j]))
+                if j <= 3:
+                    f3.write(';')
             f3.write('\n')
     f1.close(); f2.close(); f3.close()
     os.chdir("../")
 
 
-
-# def load():
-#     folder = input('Masukan nama folder: ')
-#     os.chdir(folder)
-#     user_array = func.csv_reader('user.csv')
-#     user = func.csv_parser(user_array, ';', 103, 3)
-#     os.chdir("../")
-#     return main()
-
-
-    
-
-
+def load():
+    folder = input('Masukan nama folder: ')
+    if os.path.exists(folder) == False:
+        print('Folder tidak ada')
+    else:
+        os.chdir(folder)
+        global user
+        user_array = func.csv_reader('user1.csv')
+        user = func.csv_parser(user_array, ';', 103, 3)
+        global candi
+        candi_array = func.csv_reader('candi1.csv')
+        candi = func.csv_parser(candi_array, ';', 101, 5)
+        global bahan_bangunan
+        bahan_bangunan_array = func.csv_reader('bahan_bangunan1.csv')
+        bahan_bangunan = func.csv_parser(bahan_bangunan_array, ';', 4, 3)
+    os.chdir("../")
+    return main()
 
 
 main()
